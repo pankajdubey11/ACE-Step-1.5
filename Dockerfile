@@ -37,6 +37,11 @@ COPY . /app
 # Install the package itself if it exposes one (pyproject.toml present).
 RUN pip install -e . || echo "editable install skipped (using sys.path)"
 
+# The DiT handler downloads weights to <project_root>/checkpoints = /app/checkpoints
+# (small container disk -> "No space left on device"). Symlink it to the network
+# volume so all model downloads land on persistent, large storage.
+RUN rm -rf /app/checkpoints && ln -sfn /runpod-volume/checkpoints /app/checkpoints
+
 # Optional: bake checkpoints (else mount a RunPod network volume at /runpod-volume).
 #   docker build --build-arg BAKE=1 ...
 ARG BAKE=""
