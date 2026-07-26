@@ -48,6 +48,15 @@ LM_BACKEND = os.environ.get("LM_BACKEND", "hf")   # 'vllm' (fast, CUDA) | 'hf' (
 OFFLOAD = os.environ.get("OFFLOAD_TO_CPU", "0") == "1"
 DEFAULT_STEPS = int(os.environ.get("INFERENCE_STEPS", "8"))
 
+# /app/checkpoints is a symlink to CHECKPOINT_DIR (/runpod-volume/checkpoints) per
+# the Dockerfile. Create the target so the symlink resolves — ACE-Step does
+# mkdir(exist_ok=True) on /app/checkpoints, which raises FileExistsError on a
+# *dangling* symlink (exist_ok only suppresses when the target is a real dir).
+try:
+    os.makedirs(CHECKPOINT_DIR, exist_ok=True)
+except Exception as _e:
+    print(f"[warm-start] could not pre-create {CHECKPOINT_DIR}: {_e}", flush=True)
+
 _DIT = None
 _LLM = None
 
