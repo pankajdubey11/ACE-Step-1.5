@@ -43,7 +43,10 @@ from acestep.inference import GenerationParams, GenerationConfig, generate_music
 # ----------------------------- configuration --------------------------------
 CHECKPOINT_DIR = os.environ.get("CHECKPOINT_DIR", os.path.join(_PROJECT_ROOT, "checkpoints"))
 DIT_CONFIG = os.environ.get("DIT_CONFIG", "acestep-v15-turbo")
-LM_MODEL = os.environ.get("LM_MODEL", "acestep-5Hz-lm-0.6B")
+# 1.7B is ACE-Step's DEFAULT_LM_MODEL and ships bundled with the main model
+# download; the 0.6B is a separate download that isn't fetched, so asking for it
+# gives "5Hz LM model not found".
+LM_MODEL = os.environ.get("LM_MODEL", "acestep-5Hz-lm-1.7B")
 LM_BACKEND = os.environ.get("LM_BACKEND", "hf")   # 'vllm' (fast, CUDA) | 'hf' (portable)
 OFFLOAD = os.environ.get("OFFLOAD_TO_CPU", "0") == "1"
 DEFAULT_STEPS = int(os.environ.get("INFERENCE_STEPS", "8"))

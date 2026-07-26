@@ -50,7 +50,7 @@ RUN if [ -n "$BAKE" ]; then \
     fi
 
 ENV DIT_CONFIG=acestep-v15-turbo \
-    LM_MODEL=acestep-5Hz-lm-0.6B \
+    LM_MODEL=acestep-5Hz-lm-1.7B \
     LM_BACKEND=hf \
     INFERENCE_STEPS=8 \
     OFFLOAD_TO_CPU=0 \
