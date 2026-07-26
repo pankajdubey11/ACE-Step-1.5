@@ -1,0 +1,10 @@
+{
+  "input": {
+    "operation": "background_music",
+    "music_prompt": "Cinematic emotional orchestral score, minimal solo piano opening building to warm strings, Indian authenticity, hopeful, slow tempo",
+    "duration_seconds": 30,
+    "lyrics": "",
+    "audio_format": "mp3",
+    "seed": -1
+  }
+}
