@@ -31,7 +31,7 @@ import traceback
 os.environ.pop("http_proxy", None)
 os.environ.pop("https_proxy", None)
 
-_PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+_PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, _PROJECT_ROOT)
 
 import runpod

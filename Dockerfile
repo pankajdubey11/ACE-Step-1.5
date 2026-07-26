@@ -47,4 +47,4 @@ ENV DIT_CONFIG=acestep-v15-turbo \
     OFFLOAD_TO_CPU=0 \
     PRELOAD=1
 
-CMD ["python", "-u", "runpod/handler.py"]
+CMD ["python", "-u", "handler.py"]
