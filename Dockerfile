@@ -10,7 +10,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
     PIP_NO_CACHE_DIR=1 \
     PYTHONUNBUFFERED=1 \
     HF_HOME=/runpod-volume/hf \
-    CHECKPOINT_DIR=/app/checkpoints
+    CHECKPOINT_DIR=/runpod-volume/checkpoints
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     software-properties-common git ffmpeg build-essential && \
@@ -24,9 +24,13 @@ WORKDIR /app
 
 # requirements.txt carries platform-marked torch (linux x86_64 -> 2.10.0+cu128)
 # and the cu128 extra-index, so a plain install resolves the right wheels.
+# flash-attn is EXCLUDED: it's optional (ACE-Step falls back to SDPA), its build
+# needs torch present at build time, and there's no prebuilt wheel for
+# torch2.10/cu128 (a source compile would blow RunPod's 30-min build limit).
 COPY requirements.txt /app/requirements.txt
 RUN python -m pip install --upgrade pip && \
-    pip install -r requirements.txt && \
+    grep -viE '^flash-attn' /app/requirements.txt > /app/req.trimmed.txt && \
+    pip install -r /app/req.trimmed.txt && \
     pip install runpod
 
 COPY . /app
